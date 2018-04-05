@@ -10,13 +10,7 @@ import httplib2
 from base64 import b64encode, b64decode
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
-'''
-const
-'''
-DEFAULT_URL = 'http://localhost:9091/transmission/rpc'
-SESSION_ID_KEY = 'x-transmission-session-id'
 
-DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 '''
 method
 '''
@@ -40,10 +34,13 @@ class TransmissionError(Exception):
         return self.msg
 
 class Transmission:
+
+    _url =  'http://localhost:9091/transmission/rpc'
+    _session_id_key = 'x-transmission-session-id'
+
     def __init__(self, user, passwd):
-        self._url = DEFAULT_URL
         self._http_opener = self._getOpener(self._url, user, passwd)
-        self._session_id = self._getSessionId(self._http_opener, self._url)
+        self._session_id_val = self._getSessionId(self._http_opener, self._url)
         self._seq = 0
     
     def _getOpener(self, url, user, passwd):
@@ -59,7 +56,7 @@ class Transmission:
         except urllib2.HTTPError as err:
             if err.code == 409:
                 for key in err.headers.keys():
-                    if key.lower() == SESSION_ID_KEY:
+                    if key.lower() == self._session_id_key:
                         sessionId = err.headers[key]
             else:
                 raise TransmissionError('connection fail: missing user, passwd ')
@@ -67,8 +64,8 @@ class Transmission:
 
     def _req(self, method, args):
         self._seq += 1
-        query = json.dumps({'tag':self._seq, 'method':method, 'arguments':args})
-        headers = {SESSION_ID_KEY:self._session_id}
+        query = json.dumps({'tag' : self._seq, 'method' : method, 'arguments' : args})
+        headers = {self._session_id_key : self._session_id_val}
         request = urllib2.Request(self._url, query, headers)
 
         res = self._http_opener.open(request)
@@ -84,12 +81,22 @@ class Transmission:
 
 class Drive:
     
-    def __init__(self, secret_path):
-        credentials = service_account.Credentials.from_service_account_file(secret_path, scopes=DRIVE_SCOPES)
-        self.service = build('drive', 'v3', credentials=credentials)
+    _scopes = ['https://www.googleapis.com/auth/drive.metadata']
 
-    def get_list(self):
-        pass
+    def __init__(self, secret_path):
+        credentials = service_account.Credentials.from_service_account_file(secret_path, scopes=self._scopes)
+        self._service = build('drive', 'v3', credentials=credentials)
+
+    def get_folder_list(self, parents_id=None):
+        query = ''
+        query += 'mimeType = "application/vnd.google-apps.folder" '
+        if parents_id:
+            query += 'and parents = "' + str(parents_id) + '"'
+        print query
+        rtn =   self._service.files().list(q=query, spaces='drive').execute()
+        return rtn
+        
+                                         
 
             
         
