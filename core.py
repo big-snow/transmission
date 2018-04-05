@@ -3,13 +3,15 @@
 import 
 '''
 import os
+import io
 import json
 import urllib2
 import httplib2
 
 from base64 import b64encode, b64decode
-from googleapiclient.discovery import build
 from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
 
 '''
 method
@@ -72,29 +74,58 @@ class Transmission:
         return json.loads(res.read().decode('utf-8'))
 
     def add_torrent(self, filepath):
-        torrentData = readFile(filepath)
-        if torrentData:
-            args = {'metainfo' : torrentData}
-            return self._req('torrent-add', args)
-        else:
-            raise TransmissionError('there is no file')
+        try:
+            if os.path.isfile(filepath):
+                f = io.FileIO(filepath, 'rb')
+                data = f.read()
+                data = b64encode(data).decode('utf-8')
+                torrentData = readFile(filepath)
+                if torrentData:
+                    args = {'metainfo' : torrentData}
+                    return self._req('torrent-add', args)
+                else:
+                    raise TransmissionError('there is no file')
+            else:
+                raise TransmissionError('there is not exist path')
+        finally:
+            f.close()
 
 class Drive:
     
-    _scopes = ['https://www.googleapis.com/auth/drive.metadata']
+    _scopes = ['https://www.googleapis.com/auth/drive']
 
     def __init__(self, secret_path):
         credentials = service_account.Credentials.from_service_account_file(secret_path, scopes=self._scopes)
         self._service = build('drive', 'v3', credentials=credentials)
 
-    def get_folder_list(self, parents_id=None):
-        query = ''
-        query += 'mimeType = "application/vnd.google-apps.folder" '
-        if parents_id:
-            query += 'and parents = "' + str(parents_id) + '"'
-        print query
-        rtn =   self._service.files().list(q=query, spaces='drive').execute()
-        return rtn
+    def get_list(self, kind, param):
+        if kind:
+            query = ''
+
+            if kind == 'dir':
+                query += 'mimeType = "application/vnd.google-apps.folder" '
+
+            elif kind == 'file':
+                query += 'mimeType != "application/vnd.google-apps.folder" '
+            
+            if param:
+                if param.get('name'):
+                    query += 'and name = "' + str(param.get('name')) + '" '
+
+                if param.get('parents_id'):
+                    query += 'and parents = "' + str(param.get('parents_id')) + '" '
+
+            return self._service.files().list(q=query, spaces='drive').execute()    
+        else:
+            return 
+    def get_file(self, file_id):
+        req = self._service.files().get_media(fileId=file_id)
+        fh = io.FileIO('real.torrent', 'wb')
+        downloader = MediaIoBaseDownload(fh, req)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            print "Download %d%%." % int(status.progress() * 100)
         
                                          
 
