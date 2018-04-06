@@ -1,0 +1,11 @@
+{
+    "transmission" : {
+        "torrent_user" : "torrent",
+        "torrent_passwd" : "torrent",
+        "base_dir" : "/home/test/download"
+    },
+    "google_drive" : {
+        "certificate_path" : "/home/test/Desktop/secret.json",
+        "root_dir_name" : "torrent"
+    }
+}
