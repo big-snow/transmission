@@ -1,6 +1,7 @@
 import os
 import io
 import json
+from base64 import b64encode
 
 def json_parser(data, mode):
     if mode == 'r':
@@ -10,22 +11,19 @@ def json_parser(data, mode):
     else:
         return
     
-def readFile(path, b64encoding=False):
+def readFile_b64encoded(path):
     fio, data = None, None
     try:
         if os.path.isfile(path):
             fio = io.FileIO(path, 'rb')
             data = fio.read()
-            if b64encoding: 
-                return b64encoding(data).decode('utf-8')
-            else:
-                return data
+            return b64encode(data).decode('utf-8')
     except IOError :
         raise IOError()
     finally:
-        if fio: fio.close()
+        fio.close()
 
-def join_path(*args):
+def join(*args):
     rtn = '' 
     for arg in args:
         rtn = os.path.join(rtn, arg)
