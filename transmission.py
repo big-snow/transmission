@@ -1,7 +1,5 @@
 #-*- coding: utf-8 -*-
-'''
-import 
-'''
+
 import util
 import urllib2
 

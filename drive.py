@@ -11,7 +11,7 @@ from oauth2client.file import Storage
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
-SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly','https://www.googleapis.com/auth/drive.file']
+SCOPES = ['https://www.googleapis.com/auth/drive']
 
 class Drive():
     def __init__(self, credential_init, credential_retrive):
@@ -26,6 +26,7 @@ class Drive():
             flow = flow_from_clientsecrets(credential_init, scope=SCOPES)
             credential = run_flow(flow, storage, flags)
         return credential
+
     def get_list(self, file=True, id=None, name=None, parents_id=None):
         query = ''
         
@@ -64,22 +65,18 @@ class Drive():
 
         return recursive_func(root_dir_id, '', files)
     
-    def download(self, file_id, download_dir):
-        req = self.service.files().get_media(fileId=file_id)
-        fio = util.getIO(download_dir, 'wb')
+    def download(self, file_id, write_io):
         try:
-            downloader = MediaIoBaseDownload(fio, req)
+            req = self.service.files().get_media(fileId=file_id)
+            downloader  = MediaIoBaseDownload(write_io, req)
             done = False
-            while done is True:
+            while done is False:
                 status, done = downloader.next_chunk()
                 print "Download %d%%." % int(status.progress() * 100)
+        except IOError:
+            raise
         finally:
-            fio.close()
-
-
-if __name__ == '__main__':
-    d = Drive('/home/test/git/credential/credential_init.json','/home/test/git/credential/credential_retrive.json')
-    root_id = d.get_list(file=False, name='transmission')[0]['id']
+            if write_io: write_io.close()
     
-    for file in d.dir_walk(root_id):
-        d.download(file['id'], util.join('/home/test/git/transmission/', file['name']))
+    def delete(self, file_id):
+        self.service.files().delete(fileId=file_id).execute()

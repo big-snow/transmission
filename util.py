@@ -1,6 +1,9 @@
+#-*- coding: utf-8 -*-
+
 import os
 import io
 import json
+from shutil import rmtree
 from base64 import b64encode
 
 def json_parser(data, mode):
@@ -21,7 +24,7 @@ def readFile_b64encoded(path):
     except IOError :
         raise IOError()
     finally:
-        fio.close()
+        if fio: fio.close()
 
 def join(*args):
     rtn = '' 
@@ -29,8 +32,15 @@ def join(*args):
         rtn = os.path.join(rtn, arg)
     return rtn
 
-def getIO(path, mode):
+def fileIO(path, mode):
     return io.FileIO(path, mode)
 
-def curr_path():
-    return os.getcwd()
+def mkdirs(path):
+    dirname = os.path.dirname(path)
+    if not os.path.isdir(dirname):
+        os.makedirs(dirname)
+        os.chmod(dirname, 0777)
+
+def delete(path):
+    if os.path.exists(path):
+        rmtree(path)
