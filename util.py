@@ -46,6 +46,6 @@ def mkdirs(path):
         os.makedirs(path)
         os.chmod(path, 0777)
 
-def delete(path):
-    if os.path.exists(path):
+def remove(path):
+    if os.path.isfile(path):
         os.remove(path)

@@ -1,13 +1,8 @@
 {
-    "transmission" : {
-        "TRANSMISSION_USER" : "transmission user",
-        "TRANSMISSION_PASSWD" : "transmission password",
-        "TRANSMISSION_DOWNLOAD_PATH" : "/home/download"
-    },
-    "google_drive" : {
-        "CREDENTIAL_INIT" : "oauth client id and secret file path",
-        "CREDENTIAL_RETRIVE" : "token file save path",
-        "ROOT_NAME" : "google drive root folder",
-        "DRIVE_DOWNLOAD_PATH" : "drive file download path"
-    }
+    "TRANSMISSION_USER" : "transmission user",
+    "TRANSMISSION_PASSWD" : "transmission password",
+    "DOWNLOAD_PATH" : "/home/download",
+    "DRIVE_CREDENTIAL_INIT" : "oauth client id and secret file path",
+    "DRIVE_CREDENTIAL_RETRIVE" : "token file save path",
+    "DRIVE_ROOT_NAME" : "google drive root folder"
 }
