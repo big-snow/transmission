@@ -30,11 +30,11 @@ class Transmission:
         return sessionId
 
     def _req(self, tag, method, args):
-        query = util.json_parser({'tag' : tag, 'method' : method, 'arguments' : args}, 'w')
+        query = util.toJson({'tag' : tag, 'method' : method, 'arguments' : args})
         headers = {self._session_id_key : self._session_id_val}
         request = urllib2.Request(self._url, query, headers)
         res = self._http_opener.open(request)
-        return util.json_parser(res.read().decode('utf-8'), 'r')
+        return util.fromJson(res.read().decode('utf-8'))
 
     def add_torrent(self, filepath, download_dir):
         args = {}

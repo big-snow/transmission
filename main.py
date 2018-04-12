@@ -4,20 +4,26 @@ import util
 from drive import Drive
 from transmission import Transmission
 
-CREDENTIAL_INIT = '/home/test/git/credential/credential_init.json'
-CREDENTIAL_RETRIVE = '/home/test/git/credential/credential_retrive.json'
+if __name__ == '__main__':   
+    settings = util.fromJson(open('/home/test/git/transmission/settings.json'))
 
-TRANSMISSION_USER = 'torrent'
-TRANSMISSION_PASSWD = 'torrent'
+    trans_conf = settings['transmission']
+    drive_conf = settings['google_drive']
 
-DRIVE_DOWNLOAD_PATH = '/home/test/git/temp'
-TRANSMISSION_DOWNLOAD_PATH = '/home/test/download'
+    TRANSMISSION_USER = trans_conf['TRANSMISSION_USER']
+    TRANSMISSION_PASSWD = trans_conf['TRANSMISSION_PASSWD']
+    TRANSMISSION_DOWNLOAD_PATH = trans_conf['TRANSMISSION_DOWNLOAD_PATH']
 
-if __name__ == '__main__':
+    CREDENTIAL_INIT = drive_conf['CREDENTIAL_INIT']
+    CREDENTIAL_RETRIVE = drive_conf['CREDENTIAL_RETRIVE']
+    ROOT_NAME = drive_conf['ROOT_NAME']
+    DRIVE_DOWNLOAD_PATH = drive_conf['DRIVE_DOWNLOAD_PATH']
+
+    '''start'''
     trans = Transmission(TRANSMISSION_USER, TRANSMISSION_PASSWD)
     drive = Drive(CREDENTIAL_INIT,CREDENTIAL_RETRIVE)
 
-    root_id = drive.get_list(file=False, name='transmission')[0]['id']
+    root_id = drive.get_list(file=False, name=ROOT_NAME)[0]['id']
 
     for file in drive.dir_walk(root_id):
         file_id = file['id']
@@ -38,6 +44,3 @@ if __name__ == '__main__':
             pass
 
     util.delete(DRIVE_DOWNLOAD_PATH)
-
-
-            

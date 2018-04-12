@@ -1,11 +1,13 @@
 {
     "transmission" : {
-        "torrent_user" : "torrent",
-        "torrent_passwd" : "torrent",
-        "base_dir" : "/home/test/download"
+        "TRANSMISSION_USER" : "transmission user",
+        "TRANSMISSION_PASSWD" : "transmission password",
+        "TRANSMISSION_DOWNLOAD_PATH" : "/home/download"
     },
     "google_drive" : {
-        "certificate_path" : "/home/test/Desktop/secret.json",
-        "root_dir_name" : "torrent"
+        "CREDENTIAL_INIT" : "oauth client id and secret file path",
+        "CREDENTIAL_RETRIVE" : "token file save path",
+        "ROOT_NAME" : "google drive root folder",
+        "DRIVE_DOWNLOAD_PATH" : "drive file download path"
     }
 }

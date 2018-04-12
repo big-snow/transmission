@@ -5,14 +5,19 @@ import io
 import json
 from shutil import rmtree
 from base64 import b64encode
+from six import string_types
 
-def json_parser(data, mode):
-    if mode == 'r':
+def fromJson(data):
+    if isinstance(data, string_types):
         return json.loads(data)
-    elif mode == 'w':
-        return json.dumps(data)
+    elif isinstance(data, file):
+        return json.load(data)
+
+def toJson(data, write_io=None):
+    if write_io:
+        return json.dump(data, write_io)
     else:
-        return
+        return json.dumps(data)
     
 def readFile_b64encoded(path):
     fio, data = None, None
