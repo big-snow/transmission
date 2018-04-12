@@ -5,7 +5,7 @@ from drive import Drive
 from transmission import Transmission
 
 if __name__ == '__main__':   
-    settings = util.fromJson(open('/home/test/git/transmission/settings.json'))
+    settings = util.fromJson(open('/home/test/git/transmission/settings_test.json'))
 
     trans_conf = settings['transmission']
     drive_conf = settings['google_drive']

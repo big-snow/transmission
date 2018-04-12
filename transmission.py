@@ -39,5 +39,5 @@ class Transmission:
     def add_torrent(self, filepath, download_dir):
         args = {}
         args['metainfo'] = util.readFile_b64encoded(filepath)
-        args['download_dir'] = download_dir
+        args['download-dir'] = download_dir
         return self._req('torrent', 'torrent-add', args)
