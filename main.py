@@ -35,26 +35,3 @@ if __name__ == '__main__':
             drive.delete(file['id'])
         else:
             pass
-
-
-
-
-    '''
-    for file in drive.dir_walk(root_id):
-        drive_download_path = util.join(DRIVE_DOWNLOAD_PATH, file['name'])
-        util.mkdirs(drive_download_path)
-
-        io_w = util.fileIO(drive_download_path, 'wb')
-        drive.download(file['id'], io_w)
-
-        trans_download_dir = util.join(TRANSMISSION_DOWNLOAD_PATH, file['dir'])
-        util.mkdirs(trans_download_dir)
-
-        trans_result = trans.add_torrent(drive_download_path, trans_download_dir)
-        if trans_result.get('result'):
-            pass
-            #drive.delete(file['id'])
-        else:
-            pass
-    '''
-    #util.delete(DRIVE_DOWNLOAD_PATH)
