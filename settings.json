@@ -1,8 +1,20 @@
 {
-    "TRANSMISSION_USER" : "transmission user",
-    "TRANSMISSION_PASSWD" : "transmission password",
-    "DOWNLOAD_PATH" : "/home/download",
-    "DRIVE_CREDENTIAL_INIT" : "oauth client id and secret file path",
-    "DRIVE_CREDENTIAL_RETRIVE" : "token file save path",
-    "DRIVE_ROOT_NAME" : "google drive root folder"
+    "transmission" : {
+        "user" : "transmission user name",
+        "passwd" : "transmission user passwodr"
+    },
+    "dirve" : {
+        "credential-init" : "credential path",
+        "credential-retrive" : "credential retirve path"
+    },
+    "download" : [
+        {
+            "drive-root" : "drive folder name",
+            "download-base" : "download path"
+        },
+        {
+            "drive-root" : "drive folder name",
+            "download-base" : "download path"
+        }
+    ]
 }

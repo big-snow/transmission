@@ -3,11 +3,11 @@
 import os
 import io
 import json
+import stat
 from base64 import b64encode
-from six import string_types
 
 def fromJson(data):
-    if isinstance(data, string_types):
+    if isinstance(data, str):
         return json.loads(data)
     elif isinstance(data, file):
         return json.load(data)
@@ -45,7 +45,7 @@ def mkdirs(path):
     if not os.path.isdir(path):
         os.makedirs(path)
         os.chmod(path, 0777)
-
+    
 def remove(path):
     if os.path.isfile(path):
         os.remove(path)
