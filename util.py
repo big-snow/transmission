@@ -7,7 +7,7 @@ import stat
 from base64 import b64encode
 
 def fromJson(data):
-    if isinstance(data, str):
+    if isinstance(data, str) or isinstance(data, unicode):
         return json.loads(data)
     elif isinstance(data, file):
         return json.load(data)

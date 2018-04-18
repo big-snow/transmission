@@ -22,7 +22,7 @@ def download(transmission, dirve, root_id, download_base):
             print trans_result
 
 if __name__ == '__main__':   
-    f = open('/home/test/git/transmission/settings.json')
+    f = open('/home/test/git/transmission/settings_test.json')
     settings = util.fromJson(f)
     f.close()
 
