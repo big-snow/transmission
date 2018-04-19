@@ -21,18 +21,20 @@ def download(transmission, dirve, root_id, download_base):
         else:
             print trans_result
 
-if __name__ == '__main__':   
-    f = open('/home/test/git/transmission/settings_test.json')
-    settings = util.fromJson(f)
-    f.close()
+if __name__ == '__main__':  
+    conf_path = util.sys_args()[0]
 
+    settings = util.fromJson(open(conf_path))    
+
+    IP = settings['transmission']['ip']
+    PORT = settings['transmission']['port']
     USER = settings['transmission']['user']
     PASSWD = settings['transmission']['passwd']
     
     CREDENTIAL_INIT = settings['dirve']['credential-init']
     CREDENTIAL_RETRIVE = settings['dirve']['credential-retrive']
 
-    transmission = Transmission(USER, PASSWD)
+    transmission = Transmission(IP, PORT, USER, PASSWD)
     drive = Drive(CREDENTIAL_INIT,CREDENTIAL_RETRIVE)
 
     for folder in settings['download']:

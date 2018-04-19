@@ -2,9 +2,13 @@
 
 import os
 import io
+import sys
 import json
 import stat
 from base64 import b64encode
+
+def sys_args():
+    return sys.argv[:]
 
 def fromJson(data):
     if isinstance(data, str) or isinstance(data, unicode):

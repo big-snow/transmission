@@ -1,5 +1,7 @@
 {
     "transmission" : {
+        "ip" : "ip",
+        "port" : "port",
         "user" : "transmission user name",
         "passwd" : "transmission user passwodr"
     },
