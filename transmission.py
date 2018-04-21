@@ -5,10 +5,10 @@ import urllib2
 
 class Transmission:
 
+    _url = 'http://localhost:9091/transmission/rpc'
     _session_id_key = 'x-transmission-session-id'
 
-    def __init__(self, ip, port, user, passwd):
-        self._url = 'http://' + ip + ':' + port + '/transmission/rpc'
+    def __init__(self, user, passwd):
         self._http_opener = self._getOpener(self._url, user, passwd)
         self._session_id_val = self._getSessionId(self._http_opener, self._url)
     

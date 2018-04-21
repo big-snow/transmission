@@ -46,7 +46,7 @@ def fileIO(path, mode):
 def mkdirs(path):
     if os.path.isfile(path):
         path = os.path.dirname(path)
-    if not os.path.isdir(path):
+    if not os.path.isdir(path):        
         os.makedirs(path)
         os.chmod(path, 0777)
     

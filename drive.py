@@ -4,7 +4,7 @@ import util
 import httplib2
 import argparse
 
-#from apiclient.discovery import build
+from apiclient.discovery import build
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.tools import argparser, run_flow
 from oauth2client.file import Storage
@@ -16,16 +16,16 @@ class Drive():
 
     _scopes = ['https://www.googleapis.com/auth/drive']
 
-    def __init__(self, credential_init, credential_retrive):
-        credential = self._get_credentail(credential_init, credential_retrive)
+    def __init__(self, creds_init, creds_retrive):
+        credential = self._get_credentail(creds_init, creds_retrive)
         self.service = build('drive', 'v3', http=credential.authorize(httplib2.Http()))
 
-    def _get_credentail(self, credential_init, credential_retrive):
-        storage = Storage(credential_retrive)
+    def _get_credentail(self, creds_init, creds_retrive):
+        storage = Storage(creds_retrive)
         credential = storage.get()
         if not credential or credential.invalid:
             flags = argparse.ArgumentParser(parents=[argparser]).parse_args()
-            flow = flow_from_clientsecrets(credential_init, scope=self._scopes)
+            flow = flow_from_clientsecrets(creds_init, scope=self._scopes)
             credential = run_flow(flow, storage, flags)
         return credential
 
@@ -42,7 +42,8 @@ class Drive():
         if parents_id:
             query += 'and parents = "' + parents_id + '" '
         
-        return self.service.files().list(spaces='drive', q=query).execute()['files']
+        res = self.service.files().list(spaces='drive', q=query).execute()
+        return res['files']
 
     def dir_walk(self, root_dir_id):
         files = list()

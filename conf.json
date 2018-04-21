@@ -1,0 +1,8 @@
+{
+    "transmission-user" : "user",
+    "transmission-passwd" : "passwd",
+    "download" : [
+        {"drive-root" : "drive folder name"},
+        {"drive-root" : "drive folder name"}
+    ]
+}

@@ -22,24 +22,13 @@ def download(transmission, dirve, root_id, download_base):
             print trans_result
 
 if __name__ == '__main__':  
-    conf_path = util.sys_args()[0]
-
-    settings = util.fromJson(open(conf_path))    
-
-    IP = settings['transmission']['ip']
-    PORT = settings['transmission']['port']
-    USER = settings['transmission']['user']
-    PASSWD = settings['transmission']['passwd']
+    conf = util.fromJson(open('./conf.json'))
     
-    CREDENTIAL_INIT = settings['dirve']['credential-init']
-    CREDENTIAL_RETRIVE = settings['dirve']['credential-retrive']
+    drive = Drive('./credential_init.json', './credential_retrive.json')
+    transmission = Transmission(conf['transmission-user'], conf['transmission-passwd'])
 
-    transmission = Transmission(IP, PORT, USER, PASSWD)
-    drive = Drive(CREDENTIAL_INIT,CREDENTIAL_RETRIVE)
-
-    for folder in settings['download']:
+    for folder in conf['download']:
         root_name = folder['drive-root']
-        download_base = folder['download-base']
         root_id = drive.get_list(file=False, name=root_name)[0]['id']    
         
-        download(transmission, drive, root_id, download_base)
+        download(transmission, drive, root_id, '/data')
