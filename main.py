@@ -22,9 +22,10 @@ def download(transmission, dirve, root_id, download_base):
             print trans_result
 
 if __name__ == '__main__':  
-    conf = util.fromJson(open('./conf.json'))
+    args = util.sys_args()
+    conf = util.fromJson(open(args[1]))
     
-    drive = Drive('./credential_init.json', './credential_retrive.json')
+    drive = Drive(args[2], args[3])
     transmission = Transmission(conf['transmission-user'], conf['transmission-passwd'])
 
     for folder in conf['download']:
