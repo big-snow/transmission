@@ -1,8 +1,8 @@
 {
-    "transmission-user" : "torrent",
-    "transmission-passwd" : "torrent",
+    "transmission-user" : "user",
+    "transmission-passwd" : "password",
     "drive-download" : [
-        {"drive-root" : "transmission"},
-        {"drive-root" : "torrent"}
+        {"drive-root" : "google drive folder name"},
+        {"drive-root" : "google drive folder name"}
     ]
 }
