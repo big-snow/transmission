@@ -7,8 +7,8 @@ import json
 import stat
 from base64 import b64encode
 
-def sys_args():
-    return sys.argv[:]
+def pwd():
+    return os.path.abspath(os.path.dirname(sys.argv[0]))
 
 def fromJson(data):
     if isinstance(data, str) or isinstance(data, unicode):
@@ -33,7 +33,7 @@ def readFile_b64encoded(path):
         raise IOError()
     finally:
         if fio: fio.close()
-
+            
 def join(*args):
     rtn = '' 
     for arg in args:

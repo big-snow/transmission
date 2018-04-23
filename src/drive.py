@@ -16,17 +16,17 @@ class Drive():
 
     _scopes = ['https://www.googleapis.com/auth/drive']
 
-    def __init__(self, creds_init, creds_retrive):
-        credential = self._get_credentail(creds_init, creds_retrive)
+    def __init__(self, creds_path):
+        credential = self._get_credentail(creds_path)
         self.service = build('drive', 'v3', http=credential.authorize(httplib2.Http()))
 
-    def _get_credentail(self, creds_init, creds_retrive):
-        storage = Storage(creds_retrive)
+    def _get_credentail(self, creds_path):
+        storage = Storage(creds_path)
         credential = storage.get()
-        if not credential or credential.invalid:
-            flags = argparse.ArgumentParser(parents=[argparser]).parse_args()
-            flow = flow_from_clientsecrets(creds_init, scope=self._scopes)
-            credential = run_flow(flow, storage, flags)
+        # if not credential or credential.invalid:
+        #     flags = argparse.ArgumentParser(parents=[argparser]).parse_args()
+        #     flow = flow_from_clientsecrets(creds_init, scope=self._scopes)
+        #     credential = run_flow(flow, storage, flags)
         return credential
 
     def get_list(self, file=True, id=None, name=None, parents_id=None):
@@ -69,7 +69,6 @@ class Drive():
             done = False
             while done is False:
                 status, done = downloader.next_chunk()
-                print "Download %d%%." % int(status.progress() * 100)
         except IOError:
             raise
         finally:

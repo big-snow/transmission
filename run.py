@@ -1,8 +1,8 @@
 #-*- coding: utf-8 -*-
 
-import util
-from drive import Drive
-from transmission import Transmission
+from src import util
+from src.drive import Drive
+from src.transmission import Transmission
 
 def download(transmission, dirve, root_id, download_base):
     for file in drive.dir_walk(root_id):
@@ -22,14 +22,19 @@ def download(transmission, dirve, root_id, download_base):
             print trans_result
 
 if __name__ == '__main__':  
-    args = util.sys_args()
-    conf = util.fromJson(open(args[1]))
+    pwd = util.pwd();
+
+    conf_path = util.join(pwd, "conf/conf.json")
+    creds_path = util.join(pwd, "conf/creds.json")
+    download_base = util.join(pwd, "download")
+
+    drive = Drive(creds_path)
     
-    drive = Drive(args[2], args[3])
+    conf = util.fromJson(open(conf_path))
     transmission = Transmission(conf['transmission-user'], conf['transmission-passwd'])
 
-    for folder in conf['download']:
+    for folder in conf['drive-download']:
         root_name = folder['drive-root']
         root_id = drive.get_list(file=False, name=root_name)[0]['id']    
         
-        download(transmission, drive, root_id, '/data')
+        download(transmission, drive, root_id, download_base)

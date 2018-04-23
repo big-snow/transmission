@@ -1,0 +1,8 @@
+{
+    "transmission-user" : "torrent",
+    "transmission-passwd" : "torrent",
+    "drive-download" : [
+        {"drive-root" : "transmission"},
+        {"drive-root" : "torrent"}
+    ]
+}
