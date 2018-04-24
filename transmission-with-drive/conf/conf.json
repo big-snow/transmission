@@ -1,0 +1,7 @@
+{
+    "transmission-user" : "transmission user name",
+    "transmission-passwd" : "transmission user password",
+    "drive-download" : [
+        {"drive-root" : "google drive folder name"}
+    ]
+}
