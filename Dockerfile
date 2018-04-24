@@ -13,9 +13,9 @@ RUN apt-get update && apt-get install -y \
 
     && apt-get clean \
 
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
 
-    && ln -s /etc/transmission-daemon/ ./ \
+    && ln -s /etc/transmission-daemon/ ./ 
 
 ADD transmission-daemon /transmission-daemon
 ADD transmission-with-drive ./transmission-with-drive
